@@ -10,24 +10,26 @@
           <a class="nav-link" href="{% url 'main' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">List</a>
+          <a class="nav-link" href="{% url 'products:main' %}">List</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="#">New</a>
+          <a class="nav-link" href="{% url 'products:create' %}">New</a>
         </li>
+        {% endif %}
       </ul>
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
-            <li class="nav-item justify-content-end">
-              <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-            </li>
+        <li class="nav-item justify-content-end">
+          <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+        </li>
         {% else %}
-            <li class="nav-item justify-content-end">
-              <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-            </li>
-            <li class="nav-item justify-content-end">
-              <a class="nav-link" href="{% url 'account_signup' %}">Signup</a>
-            </li>
+        <li class="nav-item justify-content-end">
+          <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+        </li>
+        <li class="nav-item justify-content-end">
+          <a class="nav-link" href="{% url 'account_signup' %}">Signup</a>
+        </li>
         {% endif %}
       </ul>
     </div>
