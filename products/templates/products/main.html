@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div>
+{% if user.is_authenticated %}
     <h3>상품 목록</h3>
-</div>
+{% else %}
+    <h3 class="text-center">로그인 후 상품 목록 확인이 가능합니다.</h3>
+    <div class="text-center mt-5">
+        <a class="btn btn-primary" href="{% url 'account_login' %}" style="width: 280px;">로그인</a>
+        <p class="mt-3">계정이 없다면 <a href="{% url 'account_signup' %}">회원가입</a>을 진행하세요.</p>
+    </div>
+{% endif %}
 {% endblock %}
