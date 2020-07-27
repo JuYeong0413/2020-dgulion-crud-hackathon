@@ -4,6 +4,7 @@
 {% block content %}
 {% if user.is_authenticated %}
     <h3>상품 목록</h3>
+    <a href="{% url 'products:create' %}" class="btn btn-outline-primary">새로운 상품 등록하기</a>
 {% else %}
     <h3 class="text-center">로그인 후 상품 목록 확인이 가능합니다.</h3>
     <div class="text-center mt-5">

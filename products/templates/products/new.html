@@ -2,6 +2,24 @@
 
 {% block content %}
 <div>
-    <h3>새로운 상품 등록</h3>
+    <h3>새로운 상품 등록하기</h3>
+    <br>
+    <form action="{% url 'products:create' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">상품 이름</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="상품 이름을 입력해주세요." required>
+        </div>
+        <div class="form-group">
+            <label for="description">상품 설명</label>
+            <textarea class="form-control" name="description" id="description" placeholder="상품 설명을 입력해주세요..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>이미지 첨부</label><br>
+            <input type="file" name="image" accept="image/*">
+        </div>
+        <br>
+        <input type="submit" value="등록하기" class="btn btn-outline-primary">
+    </form>
 </div>
 {% endblock %}
