@@ -6,17 +6,26 @@
     <h3>상품 목록</h3>
     <br>
     <a href="{% url 'products:create' %}" class="btn btn-outline-info">새로운 상품 등록하기</a>
-    <div class="row">
-        {% for product in products %}
-            <div class="col-md-4 col-12">
-                <div class="card" style="width: 18rem; margin-top: 20px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <a href="{% url 'products:show' product.id %}" class="btn btn-info">상세보기</a>
+    <div class="mb-5">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for product in products %}
+                <div class="col mb-4">
+                    <div class="card h-100" style="width: 18rem; margin-top: 20px;">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="product-image">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">
+                                {{ product.price }}원<br>
+                                판매자 : {{ product.seller }}<br>
+                            </p>
+                            <a href="{% url 'products:show' product.id %}" class="btn btn-info">상세보기</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% else %}
     <h3 class="text-center">로그인 후 상품 목록 확인이 가능합니다.</h3>
