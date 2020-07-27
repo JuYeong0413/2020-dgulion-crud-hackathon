@@ -39,6 +39,6 @@ def update(request, product_id):
 
 
 def delete(request, product_id):
-    product = get_object_or_404(product, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id)
     product.delete()
     return redirect('products:main')
