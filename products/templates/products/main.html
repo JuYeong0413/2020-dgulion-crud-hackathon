@@ -5,6 +5,18 @@
 {% if user.is_authenticated %}
     <h3>상품 목록</h3>
     <a href="{% url 'products:create' %}" class="btn btn-outline-primary">새로운 상품 등록하기</a>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 col-12">
+                <div class="card" style="width: 18rem; margin-top: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <a href="{% url 'products:show' product.id %}" class="btn btn-primary">상세보기</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% else %}
     <h3 class="text-center">로그인 후 상품 목록 확인이 가능합니다.</h3>
     <div class="text-center mt-5">
