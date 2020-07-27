@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class="mb-5">
     <h3>상품 상세보기</h3>
-    <br>
     {% if product.image %}
         <img src="{{ product.image.url }}" alt="상품사진">
     {% endif %}

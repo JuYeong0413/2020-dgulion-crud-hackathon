@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
+<div class="mb-5">
     <h3>새로운 상품 등록하기</h3>
     <br>
     <form action="{% url 'products:create' %}" method="POST" enctype="multipart/form-data">
