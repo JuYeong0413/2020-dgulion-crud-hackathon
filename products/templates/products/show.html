@@ -3,5 +3,20 @@
 {% block content %}
 <div>
     <h3>상품 상세보기</h3>
+    <br>
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="상품사진">
+    {% endif %}
+    <h5>상품 이름 : {{ product.name }}</h5>
+    <h5>상품 설명 : {{ product.description }}</h5>
+    <h5>상품 가격 : {{ product.price }}원</h5>
+    <h5>상품 재고 : {{ product.stock }}개</h5>
+    <h5>등록 시간 : {{ product.created_at }}</h5>
+    <h5>수정 시간 : {{ product.updated_at }}</h5>
+    <br>
+    {% if user == product.seller %}
+        <a href="{% url 'products:update' product.pk %}" class="btn btn-primary">수정</a>
+        <a href="{% url 'products:delete' product.pk %}" class="btn btn-danger">삭제</a>
+    {% endif %}
 </div>
 {% endblock %}
