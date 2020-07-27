@@ -5,7 +5,7 @@ app_name="products"
 urlpatterns = [
     path('', main, name="main"),
     path('new/', create, name="create"),
-    path('<int:post_id>/', show, name="show"),
-    path('<int:post_id>/edit/', update, name="update"),
-    path('<int:post_id>/delete/', delete, name="delete"),
+    path('<int:product_id>/', show, name="show"),
+    path('<int:product_id>/edit/', update, name="update"),
+    path('<int:product_id>/delete/', delete, name="delete"),
 ]
