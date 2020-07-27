@@ -4,14 +4,15 @@
 {% block content %}
 {% if user.is_authenticated %}
     <h3>상품 목록</h3>
-    <a href="{% url 'products:create' %}" class="btn btn-outline-primary">새로운 상품 등록하기</a>
+    <br>
+    <a href="{% url 'products:create' %}" class="btn btn-outline-info">새로운 상품 등록하기</a>
     <div class="row">
         {% for product in products %}
             <div class="col-md-4 col-12">
                 <div class="card" style="width: 18rem; margin-top: 20px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
-                        <a href="{% url 'products:show' product.id %}" class="btn btn-primary">상세보기</a>
+                        <a href="{% url 'products:show' product.id %}" class="btn btn-info">상세보기</a>
                     </div>
                 </div>
             </div>
