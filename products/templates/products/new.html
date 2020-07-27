@@ -4,7 +4,7 @@
 <div>
     <h3>새로운 상품 등록하기</h3>
     <br>
-    <form action="{% url 'products:create' %}" method="POST">
+    <form action="{% url 'products:create' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="name">상품 이름</label>
@@ -12,7 +12,15 @@
         </div>
         <div class="form-group">
             <label for="description">상품 설명</label>
-            <textarea class="form-control" name="description" id="description" placeholder="상품 설명을 입력해주세요..."></textarea>
+            <textarea class="form-control" name="description" id="description" placeholder="상품 설명을 입력해주세요..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">상품 가격</label>
+            <input type="number" class="form-control" name="price" id="price" min="0" required>
+        </div>
+        <div class="form-group">
+            <label for="stock">상품 재고</label>
+            <input type="number" class="form-control" name="stock" id="stock" min="1" required>
         </div>
         <div class="form-group">
             <label>이미지 첨부</label><br>
