@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main, name="main"),
-    path('products/', include('products.urls')),
-    path('accounts/', include('allauth.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', main, name="main"), # url에 아무것도 입력하지 않은 경로의 이름(name)은 main, views의 main 함수를 실행한다.
+    path('products/', include('products.urls')), # url에 products/가 앞에 붙은 경로는 products의 urls.py를 포함해서 관리한다.
+    path('accounts/', include('allauth.urls')), # django-allauth 관련 url을 포함한다.
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # media 관련 설정

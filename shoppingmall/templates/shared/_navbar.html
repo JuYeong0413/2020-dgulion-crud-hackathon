@@ -12,18 +12,18 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'products:main' %}">List</a>
         </li>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %} <!-- 로그인을 한 사용자가 페이지에 접속한 경우 -->
         <li class="nav-item">
           <a class="nav-link" href="{% url 'products:create' %}">New</a>
         </li>
         {% endif %}
       </ul>
       <ul class="navbar-nav">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %} <!-- 로그인을 한 사용자가 페이지에 접속한 경우 -->
         <li class="nav-item justify-content-end">
           <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
         </li>
-        {% else %}
+        {% else %} <!-- 로그인을 하지 않은 사용자가 페이지에 접속한 경우 -->
         <li class="nav-item justify-content-end">
           <a class="nav-link" href="{% url 'account_login' %}">Login</a>
         </li>

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated %} <!-- 로그인을 한 사용자가 페이지에 접속한 경우 -->
     <h3>상품 목록</h3>
     <br>
     <a href="{% url 'products:create' %}" class="btn btn-outline-info">새로운 상품 등록하기</a>
@@ -11,7 +11,7 @@
             {% for product in products %}
                 <div class="col mb-4">
                     <div class="card h-100" style="width: 18rem; margin-top: 20px;">
-                        {% if product.image %}
+                        {% if product.image %} <!-- 상품 사진이 존재하는 경우에만 이미지 표시 -->
                         <img src="{{ product.image.url }}" class="card-img-top" alt="product-image">
                         {% endif %}
                         <div class="card-body">
@@ -27,7 +27,7 @@
             {% endfor %}
         </div>
     </div>
-{% else %}
+{% else %} <!-- 로그인을 하지 않은 사용자가 페이지에 접속한 경우 -->
     <h3 class="text-center">로그인 후 상품 목록 확인이 가능합니다.</h3>
     <div class="text-center mt-5">
         <a class="btn btn-primary" href="{% url 'account_login' %}" style="width: 280px;">로그인</a>

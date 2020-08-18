@@ -63,7 +63,7 @@ ROOT_URLCONF = 'shoppingmall.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'shoppingmall', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'shoppingmall', 'templates')], # shoppingmall/templates/ 에서 템플릿 관리
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,15 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'ko-kr' # 한국어
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = 'Asia/Seoul' # 서울 시간
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = False # 데이터베이스에 저장되는 시간을 UTC로 사용할 것인지에 대한 설정
 
 
 # Static files (CSS, JavaScript, Images)
@@ -128,15 +128,17 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'shoppingmall', 'static')
+    os.path.join(BASE_DIR, 'shoppingmall', 'static') # shoppingmall/static/ 에서 정적 파일(static files) 관리한다.
 ]
 
+# media 관련 설정
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'shoppingmall', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'shoppingmall', 'media') # shoppingmall/media/ 에서 미디어 파일(media files) 관리한다.
 
+# django-allauth 관련 설정
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend', # Django가 관리하는 allauth를 의미함(superuser로 로그인하기 등)
+    'allauth.account.auth_backends.AuthenticationBackend', # 이메일로 로그인하기 등 django-allauth에서 제공하는 인증 방식
 ]
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/' # 로그인 후 메인 페이지(/)로 이동
