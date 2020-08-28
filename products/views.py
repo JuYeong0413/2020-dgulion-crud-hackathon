@@ -17,14 +17,14 @@ def create(request):
 
 # 메인 페이지
 def main(request):
-    all_products = Product.objects.all() # 모든 상품을 all_products라는 변수에 담는다.
+    all_products = Product.objects.all().order_by('-created_at') # 모든 상품을 all_products라는 변수에 담는다.
     return render(request, 'products/main.html', {'products': all_products}) # main.html을 띄워주는데 products라는 이름으로 all_products를 가지고 간다.
 
 
 # 상세보기 페이지
 def show(request, product_id): # 상세보기는 특정 상품에 대한 페이지이기 때문에 어떤 상품의 상세보기인지 id값을 알아야 한다.
     show_product = get_object_or_404(Product, pk=product_id) # primary key가 전달받은 product_id와 일치하는 상품을 가져와서 product라는 변수에 담는다. 없으면 404 에러
-    all_reviews = show_product.reviews.all() # 해당 상품의 모든 리뷰를 all_reviews라는 변수에 담는다.
+    all_reviews = show_product.reviews.all().order_by('-created_at') # 해당 상품의 모든 리뷰를 all_reviews라는 변수에 담는다.
     return render(request, 'products/show.html', {'product': show_product, 'reviews': all_reviews}) # show.html을 띄워주는데 product라는 이름으로 show_product를, reviews라는 이름으로 all_reviews를 가지고 간다.
 
 
