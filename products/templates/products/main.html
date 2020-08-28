@@ -18,7 +18,13 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">
                                 {{ product.price }}원<br>
-                                판매자 : {{ product.seller }}<br>
+                                판매자 : 
+                                    {% if "user" in product.seller.username %} <!-- user 라는 단어가 판매자의 username에 포함되어 있을 경우 -->
+                                        {{ product.seller.last_name }} {{ product.seller.first_name }} <!-- 구글 소셜로그인이기 때문에 성+이름으로 표시 -->
+                                    {% else %}
+                                        {{ product.seller }}
+                                    {% endif %}
+                                <br>
                             </p>
                             <a href="{% url 'products:show' product.id %}" class="btn btn-info">상세보기</a>
                         </div>
