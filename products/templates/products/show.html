@@ -11,7 +11,14 @@
     <h5>상품 설명 : {{ product.description }}</h5>
     <h5>상품 가격 : {{ product.price }}원</h5>
     <h5>상품 재고 : {{ product.stock }}개</h5>
-    <h5>판매자 : {{ product.seller }}</h5>
+    <h5>
+        판매자 : 
+        {% if "user" in product.seller.username %} <!-- user 라는 단어가 판매자의 username에 포함되어 있을 경우 -->
+            {{ product.seller.last_name }} {{ product.seller.first_name }} <!-- 구글 소셜로그인이기 때문에 성+이름으로 표시 -->
+        {% else %}
+            {{ product.seller }}
+        {% endif %}
+    </h5>
     <h5>등록 시간 : {{ product.created_at }}</h5>
     <h5>수정 시간 : {{ product.updated_at }}</h5>
     <br>
