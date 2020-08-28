@@ -18,6 +18,9 @@ urlpatterns = [
     path('<int:product_id>/delete/', delete, name="delete"),
     # url에 상품 id/delete가 붙은 경로의 이름(name)은 delete, products의 views에 있는 delete 함수를 실행한다.
     # product_id의 값으로 상품 id값을 가지고 넘어간다.
+    path('<int:product_id>/create_review', create_review, name="create_review"),
+    # url에 상품 id/create_review가 붙은 경로의 이름(name)은 create_review, products의 views에 있는 create_review 함수를 실행한다.
+    # product_id의 값으로 상품 id값을 가지고 넘어간다.
 ]
 # Django 템플릿 태그(template tag)로 url을 작성할 때 {% url '앱이름:path이름' %} 의 형태로 작성한다.
 # {% url 'products:show' product.id %}

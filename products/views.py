@@ -24,7 +24,8 @@ def main(request):
 # 상세보기 페이지
 def show(request, product_id): # 상세보기는 특정 상품에 대한 페이지이기 때문에 어떤 상품의 상세보기인지 id값을 알아야 한다.
     show_product = get_object_or_404(Product, pk=product_id) # primary key가 전달받은 product_id와 일치하는 상품을 가져와서 product라는 변수에 담는다. 없으면 404 에러
-    return render(request, 'products/show.html', {'product': show_product}) # show.html을 띄워주는데 product라는 이름으로 show_product를 가지고 간다.
+    all_reviews = show_product.reviews.all() # 해당 상품의 모든 리뷰를 all_reviews라는 변수에 담는다.
+    return render(request, 'products/show.html', {'product': show_product, 'reviews': all_reviews}) # show.html을 띄워주는데 product라는 이름으로 show_product를, reviews라는 이름으로 all_reviews를 가지고 간다.
 
 
 # 상품 수정
@@ -48,3 +49,14 @@ def delete(request, product_id): # 상품 삭제는 특정 상품에 대한 기�
     product = get_object_or_404(Product, pk=product_id) # primary key가 전달받은 product_id와 일치하는 상품을 가져와서 product라는 변수에 담는다. 없으면 404 에러
     product.delete() # product라는 변수에 담긴 상품을 삭제(delete)한다.
     return redirect('products:main') # 메인 페이지로 이동한다.
+
+
+# 리뷰 생성
+def create_review(request, product_id):
+    if request.method == "POST":
+        product = get_object_or_404(Product, pk=product_id)
+        current_user = request.user
+        review_rating = request.POST.get('rating')
+        review_content = request.POST.get('content')
+        Review.objects.create(writer=current_user, rating=review_rating, content=review_content, product=product)
+    return redirect('products:show', product_id)

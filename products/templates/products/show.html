@@ -26,5 +26,39 @@
         <a href="{% url 'products:update' product.pk %}" class="btn btn-primary">수정</a>
         <a href="{% url 'products:delete' product.pk %}" class="btn btn-danger">삭제</a>
     {% endif %}
+    
+    <!-- 리뷰 작성란 -->
+    <div class="container mt-5">
+        <form class="form-row" action="{% url 'products:create_review' product.id %}" method="POST">
+          {% csrf_token %}
+          <select class="form-control col-2 mr-1" name="rating">
+            <option value="1">★</option>
+            <option value="2">★★</option>
+            <option value="3">★★★</option>
+            <option value="4">★★★★</option>
+            <option value="5">★★★★★</option>
+          </select>
+          <textarea class="form-control col-9 mr-2" name="content" placeholder="리뷰 내용 입력..." required></textarea>
+          <input type="submit" class="btn btn-primary" value="확인">
+        </form>
+    </div>
+
+    <!-- 모든 리뷰 보여주는 부분 -->
+    <div class="container mt-5 mb-5">
+        {% for review in reviews %}
+            <div class="card">
+                <div class="card-body">
+                    <b>
+                        {% if "user" in review.writer.username %}
+                            {{ review.writer.last_name }} {{ review.writer.first_name }}
+                        {% else %}
+                            {{ review.writer }}
+                        {% endif %}
+                    </b> : ({{ review.rating }}점) {{ review.content }}<br>
+                    <small>{{ review.created_at }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
