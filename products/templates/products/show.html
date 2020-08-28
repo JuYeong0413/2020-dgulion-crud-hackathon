@@ -48,13 +48,23 @@
         {% for review in reviews %}
             <div class="card">
                 <div class="card-body">
-                    <b>
-                        {% if "user" in review.writer.username %}
-                            {{ review.writer.last_name }} {{ review.writer.first_name }}
-                        {% else %}
-                            {{ review.writer }}
+                    <div class="row">
+                        <div class="col">
+                            <b>
+                                {% if "user" in review.writer.username %} <!-- user 라는 단어가 리뷰 작성자의 username에 포함되어 있을 경우 -->
+                                    {{ review.writer.last_name }} {{ review.writer.first_name }} <!-- 구글 소셜로그인이기 때문에 성+이름으로 표시 -->
+                                {% else %}
+                                    {{ review.writer }}
+                                {% endif %}
+                            </b> : ({{ review.rating }}점) {{ review.content }}
+                        </div>
+                        {% if user == review.writer %} <!-- 페이지에 접속한 사람이 리뷰 작성자인 경우에만 수정, 삭제 가능하도록 글자 표시 -->
+                            <div class="col text-right">
+                                <a href="{% url 'products:update_review' review.id %}">수정</a>
+                                <a href="{% url 'products:delete_review' review.id %}">삭제</a>
+                            </div>
                         {% endif %}
-                    </b> : ({{ review.rating }}점) {{ review.content }}<br>
+                    </div>
                     <small>{{ review.created_at }}</small>
                 </div>
             </div>

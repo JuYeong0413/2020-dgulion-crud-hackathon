@@ -52,11 +52,32 @@ def delete(request, product_id): # 상품 삭제는 특정 상품에 대한 기�
 
 
 # 리뷰 생성
-def create_review(request, product_id):
-    if request.method == "POST":
-        product = get_object_or_404(Product, pk=product_id)
-        current_user = request.user
-        review_rating = request.POST.get('rating')
-        review_content = request.POST.get('content')
-        Review.objects.create(writer=current_user, rating=review_rating, content=review_content, product=product)
-    return redirect('products:show', product_id)
+def create_review(request, product_id): # 어떤 상품에 달리는 리뷰인지 상품 id값을 알아야 한다.
+    if request.method == "POST": # POST 방식으로 요청이 들어오면
+        product = get_object_or_404(Product, pk=product_id) # primary key가 전달받은 product_id와 일치하는 상품을 가져와서 product라는 변수에 담는다. 없으면 404 에러
+        current_user = request.user # 요청을 보낸 사용자(request.user)를 current_user라는 변수에 담는다.
+        review_rating = request.POST.get('rating') # <form>에서 name="rating"인 <input>의 값을 가져와서 rating이라는 변수에 담는다.
+        review_content = request.POST.get('content') # <form>에서 name="content"인 <input>의 값을 가져와서 content라는 변수에 담는다.
+        Review.objects.create(writer=current_user, rating=review_rating, content=review_content, product=product) # 리뷰 생성
+    return redirect('products:show', product_id) # POST 방식의 요청이 아니거나, 리뷰를 생성한 다음에는 상품 상세보기 페이지로 이동한다.
+
+
+# 리뷰 수정
+def update_review(request, review_id): # 어떤 리뷰를 수정하는지 리뷰 id값을 알아야 한다.
+    review = get_object_or_404(Review, pk=review_id) # primary key가 전달받은 review_id와 일치하는 리뷰를 가져와서 review라는 변수에 담는다. 없으면 404 에러
+    if request.method == "POST": # POST 방식으로 요청이 들어오면
+        product_id = review.product.id # 리뷰를 수정한 다음에 해당 리뷰가 달린 상품 상세보기로 가기 위해 상품 id값을 가져와서 product_id라는 변수에 담는다.
+        review.rating = request.POST.get('rating') # <form>에서 name="rating"인 <input>의 값을 가져와서 rating이라는 변수에 담는다.
+        review.content = request.POST.get('content') # <form>에서 name="content"인 <input>의 값을 가져와서 content라는 변수에 담는다.
+        review.save() # 리뷰를 저장(값 업데이트)한다.
+        return redirect('products:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
+    return render(request, 'products/edit_review.html', {'review': review}) # POST 방식의 요청이 아니라면 edit_review.html 파일을 띄워준다.
+    # 그런데 edit_review.html에서는 기존에 저장되어 있는 속성값을 보여줄 것이기 때문에 review라는 이름으로 review(변수에 담은 리뷰)를 가지고 간다.
+
+
+# 리뷰 삭제
+def delete_review(request, review_id): # 어떤 리뷰를 삭제하는지 리뷰 id값을 알아야 한다.
+    review = get_object_or_404(Review, pk=review_id) # primary key가 전달받은 review_id와 일치하는 리뷰를 가져와서 review라는 변수에 담는다. 없으면 404 에러
+    product_id = review.product.id # 리뷰를 삭제한 다음에 해당 리뷰가 달렸던 상품 상세보기로 가기 위해 상품 id값을 가져와서 product_id라는 변수에 담는다.
+    review.delete() # review라는 변수에 담긴 리뷰 객체를 삭제(delete)한다.
+    return redirect('products:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
