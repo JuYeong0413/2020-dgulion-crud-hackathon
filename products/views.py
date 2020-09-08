@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from django.contrib.auth.decorators import login_required # @login_required 데코레이터 사용을 위함
 
 # 새로운 상품 생성
 def create(request):
@@ -81,3 +82,16 @@ def delete_review(request, review_id): # 어떤 리뷰를 삭제하는지 리뷰
     product_id = review.product.id # 리뷰를 삭제한 다음에 해당 리뷰가 달렸던 상품 상세보기로 가기 위해 상품 id값을 가져와서 product_id라는 변수에 담는다.
     review.delete() # review라는 변수에 담긴 리뷰 객체를 삭제(delete)한다.
     return redirect('products:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
+
+
+# 좋아요/좋아요 취소
+@login_required
+def like_product(request, product_id): # 어떤 상품에 좋아요/좋아요 취소를 하는 것인지 상품 id값을 알아야 한다.
+    product = get_object_or_404(Product, pk=product_id) # primary key가 전달받은 product_id와 일치하는 상품을 가져와서 product라는 변수에 담는다. 없으면 404 에러
+    product_like, product_like_created = product.like_set.get_or_create(user=request.user) # 구하고자 하는 좋아요 객체가 존재하면 가져오고 없으면 새로 생성한다.
+    # 객체가 존재한다면 product_like_created는 False, 객체가 존재하지 않아서 새로 생성했다면 product_like_created는 True
+
+    if not product_like_created: # 객체가 새로 생성되지 않았다면 == 객체가 존재한다면
+        product_like.delete() # 좋아요 객체 삭제(좋아요 취소)
+        
+    return redirect('producs:main') # 메인 페이지로 이동한다.
