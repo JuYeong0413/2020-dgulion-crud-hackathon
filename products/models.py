@@ -15,6 +15,12 @@ class Product(models.Model):
     # on_delete=models.CASCADE => 1(사용자)인 쪽의 데이터가 삭제되면 N(상품)은? 같이 지운다(CASCADE).
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    liked_users = models.ManyToManyField(User, blank=True, related_name="liked_users", through="Like")
+    # 좋아요 누른 사용자(Like 모델을 통해 User와 Post의 좋아요 관계 정의)
+
+    @property
+    def like_count(self):
+        return self.liked_users.count() # 좋아요 누른 사용자의 수를 반환한다.
 
 
 # 후기
@@ -36,3 +42,13 @@ class Review(models.Model):
     content = models.TextField() # 내용
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # 메타 클래스를 선언할 때에는 한 줄 공백 있어야 한다.
+    class Meta: # 모델에 메타데이터 추가
+        unique_together = ['user','product'] # 함께 유일해야 하는 필드의 쌍
