@@ -94,4 +94,7 @@ def like_product(request, product_id): # 어떤 상품에 좋아요/좋아요 �
     if not product_like_created: # 객체가 새로 생성되지 않았다면 == 객체가 존재한다면
         product_like.delete() # 좋아요 객체 삭제(좋아요 취소)
         
-    return redirect('producs:main') # 메인 페이지로 이동한다.
+    if request.GET.get('redirect_to') == 'show': # redirect_to 라는 이름으로 GET 메서드를 이용해 넘어온 값이 'show'라면
+        return redirect('posts:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
+    else:
+        return redirect('posts:main')# 메인 페이지로 이동한다.
