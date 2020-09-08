@@ -28,6 +28,12 @@
             <i class="far fa-heart"></i>
         {% endif %}
     </a>
+    <p>{{ product.like_count }}명의 사용자가 이 상품을 좋아합니다.</p>
+    <p>
+        {% for user in product.liked_users.all %} <!-- 상품에 좋아요를 누른 모든 사용자를 user라는 변수에 담은 후 -->
+            {{ user.username }} <!-- username 출력 -->
+        {% endfor %}
+    </p>
     <br>
     {% if user == product.seller %} <!-- 페이지에 접속한 사람이 상품 판매자인 경우에만 수정, 삭제 가능하도록 버튼 표시 -->
         <a href="{% url 'products:update' product.pk %}" class="btn btn-primary">수정</a>
