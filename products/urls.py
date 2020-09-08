@@ -30,6 +30,7 @@ urlpatterns = [
     path('<int:product_id>/like', like_product, name="like_product"),
     # url에 상품 id/like가 붙은 경로의 이름(name)은 like_product, products의 views에 있는 like_product 함수를 실행한다.
     # product_id의 값으로 상품 id값을 가지고 넘어간다.
+    path('likes/', like_list, name="like_list"), # url에 likes/ 가 붙은 경로의 이름(name)은 like-list, products의 views에 있는 like-list 함수를 실행한다.
 ]
 # Django 템플릿 태그(template tag)로 url을 작성할 때 {% url '앱이름:path이름' %} 의 형태로 작성한다.
 # {% url 'products:show' product.id %}

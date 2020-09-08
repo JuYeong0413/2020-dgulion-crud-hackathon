@@ -93,8 +93,18 @@ def like_product(request, product_id): # 어떤 상품에 좋아요/좋아요 �
 
     if not product_like_created: # 객체가 새로 생성되지 않았다면 == 객체가 존재한다면
         product_like.delete() # 좋아요 객체 삭제(좋아요 취소)
-        
-    if request.GET.get('redirect_to') == 'show': # redirect_to 라는 이름으로 GET 메서드를 이용해 넘어온 값이 'show'라면
-        return redirect('posts:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
+
+    redirect_url = request.GET.get('redirect_to') # redirect_to 라는 이름으로 GET 메서드를 이용해 넘어온 값을 redirect_url이라는 변수에 담아준다.
+    if redirect_url == 'show': # redirect_url 변수에 담긴 값이 'show'라면
+        return redirect('products:show', product_id) # 상품 상세보기 페이지로 이동한다. 상세보기에서는 상품 id값을 알아야 하기 때문에 위에서 담아둔 product_id값을 함께 보낸다.
+    elif redirect_url == 'likes': # redirect_url 변수에 담긴 값이 'likes'라면
+        return redirect('products:like_list') # 좋아요를 누른 상품 목록 페이지로 이동한다.
     else:
-        return redirect('posts:main')# 메인 페이지로 이동한다.
+        return redirect('products:main') # 메인 페이지로 이동한다.
+
+
+# 좋아요 누른 상품 목록
+@login_required
+def like_list(request):
+    likes = Like.objects.filter(user=request.user) # Like 모델을 이용해 요청을 보낸 사용자가 user에 해당하는 객체들만 fliter한 후 likes라는 변수에 담아준다.
+    return render(request,'products/like_list.html',{'likes': likes}) # like_list.html 파일로 likes라는 이름으로 해당 변수를 같이 보내준다.

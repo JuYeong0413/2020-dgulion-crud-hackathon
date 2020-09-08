@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'shared/_navbar.html' %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <h1>좋아요를 누른 상품 목록</h1>
+        <div class="row">
+            {% for like in likes %}
+                <div class="col mb-4">
+                    <div class="card h-100" style="width: 18rem; margin-top: 20px;">
+                        {% if like.product.image %} <!-- 상품 사진이 존재하는 경우에만 이미지 표시 -->
+                        <img src="{{ like.product.image.url }}" class="card-img-top" alt="product-image">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ like.product.name }}</h5>
+                            <p class="card-text">
+                                {{ like.product.price }}원<br>
+                                판매자 : 
+                                    {% if "user" in like.product.seller.username %} <!-- user 라는 단어가 판매자의 username에 포함되어 있을 경우 -->
+                                        {{ like.product.seller.last_name }} {{ like.product.seller.first_name }} <!-- 구글 소셜로그인이기 때문에 성+이름으로 표시 -->
+                                    {% else %}
+                                        {{ like.product.seller }}
+                                    {% endif %}
+                                <br>
+                            </p>
+                            <a href="{% url 'products:like_product' like.product.id %}?redirect_to=likes"> <!-- 좋아요/좋아요 취소 -->
+                                {% if user in like.product.liked_users.all %} <!-- 현재 사용자가 해당 게시글에 좋아요 누른 사용자에 포함되어 있다면 -->
+                                    <i class="fas fa-heart"></i> <!-- 색깔이 채워져 있는 하트 -->
+                                {% else %} <!-- 좋아요 누른 상태가 아니면 -->
+                                    <i class="far fa-heart"></i> <!-- 색깔이 채워져 있지 않은 하트-->
+                                {% endif %}
+                            </a>
+                            <br><br>
+                            <a href="{% url 'products:show' like.product.id %}" class="btn btn-info">상세보기</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3>로그인 후 이용이 가능합니다.</h3>
+        <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a>
+    {% endif %}
+</div>
+{% endblock %}
